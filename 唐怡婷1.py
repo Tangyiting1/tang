@@ -14,18 +14,15 @@ def calculate_distance(x1, y1, x2, y2):
     return np.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
 
-# 寻找最近邻点
-def find_nearest_neighbor(x, y, target_x, target_y):
-    min_distance = float('inf')
-    nearest_x = None
-    nearest_y = None
+# 寻找k个最近邻点
+def find_k_nearest_neighbors(x, y, target_x, target_y, k):
+    distances = []
     for i in range(len(x)):
         distance = calculate_distance(target_x, target_y, x[i], y[i])
-        if distance < min_distance:
-            min_distance = distance
-            nearest_x = x[i]
-            nearest_y = y[i]
-    return nearest_x, nearest_y
+        distances.append((distance, x[i], y[i]))
+    distances.sort()  # 对距离及对应的坐标元组进行排序
+    nearest_neighbors = distances[:k]  # 取前k个元素作为最近的k个邻点
+    return [(item[1], item[2]) for item in nearest_neighbors]
 
 
 # 主函数
@@ -36,14 +33,17 @@ def main():
     target_x = np.random.randn()
     target_y = np.random.randn()
 
-    nearest_x, nearest_y = find_nearest_neighbor(x, y, target_x, target_y)
+    k = 5  # 设定要查找的最近邻点个数
+    nearest_neighbors = find_k_nearest_neighbors(x, y, target_x, target_y, k)
 
     plt.scatter(x, y, c='b', label='Data Points')
     plt.scatter(target_x, target_y, c='r', label='Target Point')
-    plt.scatter(nearest_x, nearest_y, c='g', label='Nearest Neighbor')
+    for neighbor in nearest_neighbors:
+        plt.scatter(neighbor[0], neighbor[1], c='g', label='Nearest Neighbors')
     plt.legend()
     plt.show()
 
 
 if __name__ == "__main__":
     main()
+    
