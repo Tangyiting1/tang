@@ -31,18 +31,21 @@ def find_nearest_neighbor(x, y, target_x, target_y):
 # 主函数
 def main():
     num_points = 100
-    x, y = generate_random_data(num_points)
+    while True:
+        # 获取用户输入的目标点坐标，如果输入非数字则结束循环
+        try:
+            target_x = float(input("请输入目标点的x坐标（输入非数字退出）："))
+            target_y = float(input("请输入目标点的y坐标（输入非数字退出）："))
+        except ValueError:
+            break
 
-    target_x = np.random.randn()
-    target_y = np.random.randn()
+        nearest_x, nearest_y = find_nearest_neighbor(x, y, target_x, target_y)
 
-    nearest_x, nearest_y = find_nearest_neighbor(x, y, target_x, target_y)
-
-    plt.scatter(x, y, c='b', label='Data Points')
-    plt.scatter(target_x, target_y, c='r', label='Target Point')
-    plt.scatter(nearest_x, nearest_y, c='g', label='Nearest Neighbor')
-    plt.legend()
-    plt.show()
+        plt.scatter(x, y, c='b', label='Data Points')
+        plt.scatter(target_x, target_y, c='r', label='Target Point')
+        plt.scatter(nearest_x, nearest_y, c='g', label='Nearest Neighbor')
+        plt.legend()
+        plt.show()
 
 
 if __name__ == "__main__":
