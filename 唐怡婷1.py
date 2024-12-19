@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 # 生成随机数据
 def generate_random_data(num_points):
     x = np.random.randn(num_points)
